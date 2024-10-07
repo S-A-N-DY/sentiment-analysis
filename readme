@@ -1,0 +1,73 @@
+This project processes textual survey data, applies sentiment analysis, detects anomalies, and assigns trust ratings to each response. The goal is to filter and display genuine responses while identifying suspicious or incomplete entries.
+
+Features
+Sentiment Analysis: Uses the TextBlob library to analyze the sentiment polarity of textual data.
+Anomaly Detection: Identifies outlier responses based on word count, sentiment thresholds, and predefined suspicious patterns.
+Trust Rating: Assigns a trust score to each response based on anomalies and missing data.
+Response Filtering: Filters out suspicious and incomplete responses, leaving only genuine entries for further analysis.
+Components
+TextBlob: A Python library used for sentiment analysis.
+Pandas: For data handling and manipulation.
+Regular Expressions (re): Used to detect non-textual content such as hyperlinks, emojis, and numbers.
+Numpy: For handling numerical and missing data.
+Prerequisites
+Python 3.x
+TextBlob and its dependencies:
+bash
+Copy code
+pip install textblob
+Pandas and Numpy:
+bash
+Copy code
+pip install pandas numpy
+Setup and Installation
+Clone or download the project files.
+Ensure that the input data file (Hackfest Data.xlsx) is placed in the appropriate location as indicated in the code.
+Adjust the file path if necessary:
+python
+Copy code
+data_clean = pd.read_excel(r'C:\Users\moyu2001\Desktop\PROJECT\Hackfest Data.xlsx', sheet_name='Data')
+Run the Python script to execute the sentiment analysis, outlier detection, and trust rating assignment.
+Code Workflow
+Step 1: Data Loading and Cleaning
+The input data from an Excel file is loaded using pandas.
+Numerical values are converted to strings to handle text processing uniformly.
+Textual data is cleaned to remove any non-textual entries such as emojis, hyperlinks, and numeric data.
+Step 2: Sentiment Analysis
+Sentiment analysis is applied to three key columns (qcheck, x01_2, x01_3) in the dataset using the TextBlob library.
+The polarity of each text entry is calculated, with values ranging from -1 (negative) to 1 (positive).
+Step 3: Anomaly Detection
+Anomalies are detected based on:
+Word count thresholds (less than 10 or more than 50 words).
+Suspicious content, such as phrases like "guaranteed results" or "money back no questions asked."
+High sentiment values (absolute sentiment polarity > 0.8).
+Rows flagged as anomalous are marked as outliers.
+Step 4: Trust Rating System
+Each response is assigned a trust rating starting at 10.
+If the response is an outlier or missing, the trust rating is reduced by 5 points.
+Additional logic for adjusting trust ratings can be added.
+Step 5: Filtering Genuine Responses
+Genuine responses are filtered based on the absence of outliers and missing data.
+These genuine responses, along with their sentiment analysis and trust ratings, are displayed.
+Example Output
+The script prints a filtered set of genuine responses, showing:
+
+Response ID (idnr)
+Text Response (qcheck)
+Sentiment Score (qcheck_sentiment)
+Trust Rating (trust_rating)
+Sample output:
+
+markdown
+Copy code
+    idnr   qcheck   qcheck_sentiment   trust_rating
+    102    Great product!   0.75               10
+    205    Not satisfied   -0.6               10
+    ...
+Customization
+Anomaly Detection: You can customize the thresholds and suspicious content to suit your dataset. Update the is_outlier function as needed.
+Trust Rating: Modify the assign_trust_rating function to introduce more factors affecting the trust rating.
+Future Enhancements
+Language Detection: Automatically detect and handle responses in multiple languages.
+Advanced Sentiment Analysis: Use more sophisticated NLP techniques, such as pre-trained transformers, for better sentiment analysis.
+Visualization: Generate reports or graphs summarizing the sentiment distribution and trust ratings.
